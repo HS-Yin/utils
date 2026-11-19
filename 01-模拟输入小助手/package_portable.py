@@ -19,7 +19,7 @@ from pathlib import Path
 BASE = Path(__file__).resolve().parent
 APP_NAME = "模拟输入小助手"
 SOURCE = BASE / "模拟输入小助手.py"
-ICON = BASE / "keyboard_buddy.ico"
+ICON = BASE / "icon.ico"
 DIST = BASE / "dist"
 BUILD = BASE / "build"
 EXE = DIST / (APP_NAME + ".exe")
