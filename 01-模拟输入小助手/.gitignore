@@ -1,9 +1,18 @@
-__pycache__/
-*.py[cod]
-.venv/
-venv/
+# 打包产物
 build/
 dist/
 *.spec
+
+# 构建虚拟环境
+.venv-build/
+.venv/
+venv/
+
+# 运行时日志
+模拟输入.log
+
+# Python 和编辑器临时文件
+__pycache__/
+*.py[cod]
 .idea/
 .vscode/

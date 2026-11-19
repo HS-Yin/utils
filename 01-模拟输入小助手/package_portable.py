@@ -1,7 +1,11 @@
 """Build the single-file Windows executable (PyInstaller onefile) and the zip.
 
-Usage:  E:\\software\\python310\\python.exe -X utf8 package_portable.py
-The build venv (see README) supplies PyInstaller; the app itself needs nothing.
+Usage (from this folder):
+    python -m venv .venv-build --system-site-packages
+    .venv-build\\Scripts\\python.exe -m pip install pyinstaller
+    .venv-build\\Scripts\\python.exe -X utf8 package_portable.py
+
+The build venv supplies PyInstaller; the app itself needs nothing but Windows.
 """
 
 from __future__ import annotations
@@ -12,16 +16,16 @@ import sys
 import zipfile
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parent
 APP_NAME = "模拟输入小助手"
-SOURCE = ROOT / "01-模拟输入小助手" / "模拟输入小助手.py"
-ICON = ROOT / "keyboard_buddy.ico"
-DIST = ROOT / "dist"
-BUILD = ROOT / "build"
+SOURCE = BASE / "模拟输入小助手.py"
+ICON = BASE / "keyboard_buddy.ico"
+DIST = BASE / "dist"
+BUILD = BASE / "build"
 EXE = DIST / (APP_NAME + ".exe")
 GUIDE = DIST / "使用说明.txt"
 ZIP = DIST / (APP_NAME + "-便携版.zip")
-RELEASE_ZIP = ROOT / "01-模拟输入小助手" / "release" / (APP_NAME + ".zip")
+RELEASE_ZIP = BASE / "release" / (APP_NAME + ".zip")
 LEGACY_DIR = DIST / APP_NAME  # old embedded-runtime layout
 
 GUIDE_TEXT = (
@@ -47,7 +51,7 @@ GUIDE_TEXT = (
 
 def run(command: list[str]) -> None:
     print("$ " + " ".join(command))
-    subprocess.run(command, cwd=ROOT, check=True)
+    subprocess.run(command, cwd=BASE, check=True)
 
 
 def build() -> None:
@@ -58,7 +62,7 @@ def build() -> None:
     try:
         version = subprocess.run(
             [sys.executable, "-m", "PyInstaller", "--version"],
-            cwd=ROOT, check=True, capture_output=True, text=True,
+            cwd=BASE, check=True, capture_output=True, text=True,
         ).stdout.strip()
     except (subprocess.CalledProcessError, OSError) as exc:
         raise RuntimeError(
